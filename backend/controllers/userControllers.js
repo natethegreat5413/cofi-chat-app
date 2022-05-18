@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
 const generateToken = require("../config/generateToken");
+const bcrypt = require("bcryptjs");
 
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -36,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -54,4 +55,4 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, authUser };
