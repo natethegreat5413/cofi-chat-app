@@ -1,0 +1,20 @@
+.login-container {
+    width: 50%;
+    padding: 2rem;
+}
+
+.errors {
+    color: red;
+}
+
+.input {
+    margin-bottom: 1rem;
+}
+
+h2 {
+    margin-bottom: 0px;
+}
+
+.css-wb57ya-MuiFormControl-root-MuiTextField-root {
+    margin: 0px 0px 1rem 0px;
+}
