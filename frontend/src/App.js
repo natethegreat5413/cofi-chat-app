@@ -1,11 +1,16 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+
+import { Homepage, Chatpage } from "./Pages";
 
 function App() {
     return (
-        <div className="App">
-            <Button variant="outlined">Button</Button>
+        <div>
+            <Routes>
+                <Route path="/" exact element={<Homepage />} />
+                <Route path="/chats" element={<Chatpage />} />
+            </Routes>
         </div>
     );
 }
