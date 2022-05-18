@@ -5,7 +5,7 @@ import "./register.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-export function Register() {
+export function Register(props) {
     const onSubmit = (data) => console.log(data);
 
     return (
@@ -23,7 +23,10 @@ export function Register() {
                 <img src={cofi} height={75} width={75} />
                 <h2>Register</h2>
                 <p>
-                    Already have an account? <a href="#">Login</a>
+                    Already have an account?{" "}
+                    <Button variant="text" onClick={props.toggle}>
+                        Login
+                    </Button>
                 </p>
                 <TextField
                     label="Name"
@@ -31,6 +34,7 @@ export function Register() {
                     className="input"
                     fullWidth
                 />
+                <Space />
                 <TextField
                     size="small"
                     className="input"
@@ -38,6 +42,7 @@ export function Register() {
                     type="email"
                     label="Email"
                 />
+                <Space />
                 <TextField
                     size="small"
                     className="input"
@@ -45,6 +50,7 @@ export function Register() {
                     fullWidth
                     label="Password"
                 />
+                <Space />
                 <TextField
                     size="small"
                     className="input"
@@ -52,8 +58,11 @@ export function Register() {
                     fullWidth
                     label="re-type Password"
                 />
+                <Space />
                 <Button variant="outlined">Create Account</Button>
             </Paper>
         </form>
     );
 }
+
+const Space = () => <div style={{ height: "1rem" }} />;

@@ -5,7 +5,7 @@ import "./login.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-export function Login() {
+export function Login(props) {
     const onSubmit = (data) => console.log(data);
 
     return (
@@ -23,7 +23,8 @@ export function Login() {
                 <img src={cofi} height={75} width={75} />
                 <h2>Login</h2>
                 <p>
-                    Don't have an account? Register <a href="#">Here</a>
+                    Don't have an account? Register
+                    <Button onClick={props.toggle}>Here</Button>
                 </p>
                 <TextField
                     size="small"
@@ -32,6 +33,7 @@ export function Login() {
                     type="email"
                     label="Email"
                 />
+                <Space />
                 <TextField
                     size="small"
                     className="input"
@@ -39,8 +41,11 @@ export function Login() {
                     fullWidth
                     label="Password"
                 />
+                <Space />
                 <Button variant="outlined">Create Account</Button>
             </Paper>
         </form>
     );
 }
+
+const Space = () => <div style={{ height: "1rem" }} />;
