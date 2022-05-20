@@ -5,42 +5,124 @@ import axios from "axios";
 import { Threads, Chat } from "../Pages/Auth/components/index";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export function Chatpage() {
     const [threads, setThreads] = useState(dummy);
     const [message, setMessage] = useState("");
-    const [activeChat, setActiveChat] = useState();
+    const [activeChat, setActiveChat] = useState(threads[0]);
     const [activeMessages, setActiveMessages] = useState(threads[2].messages);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalInput, setModalInput] = useState("");
 
-    // console.log(activeChat);
-    // console.log(activeMessages);
+    const handleOpen = () => setModalOpen(true);
+    const handleClose = () => setModalOpen(false);
+
     const newMessage = (e) => {
-        e.preventDefault();
-        activeMessages.push({
-            sender: "ndcowley",
-            content: message,
-            timestamp: new Date().toLocaleTimeString(),
-        });
+        const newMessage = [...activeMessages, e];
+        setActiveMessages(newMessage);
+        console.log("newMessage", newMessage);
+        setMessage("");
     };
 
-    const selectChat = (id) => {
-        setActiveChat(id);
-        const newActiveChat = threads.filter((item) => item.id === id);
-        console.log("newActiveChat", newActiveChat[0].messages);
+    const selectChat = (chat) => {
+        setActiveChat(chat);
+        const newActiveChat = threads.filter((item) => item.id === chat.id);
         setActiveMessages(newActiveChat[0].messages);
     };
+
+    const addThread = () => {
+        const thread = {
+            id: 5,
+            name: modalInput,
+            messages: [],
+        };
+        const newThread = [...threads, thread];
+        setThreads(newThread);
+        setModalInput("");
+        setModalOpen(false);
+        console.log(threads);
+    };
+
+    const modalStyle = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+    };
+
+    // useEffect(() => {
+    //     setActiveMessages(window.localStorage.getItem("activeMessages"));
+    // }, []);
+
+    // useEffect(() => {
+    //     JSON.parse(
+    //         window.localStorage.setItem("activeMessages", threads[2].messages)
+    //     );
+    // }, [activeMessages]);
 
     return (
         <div className="page-wrapper">
             <div className="threads">
-                <h2>Chats</h2>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: ".5rem",
+                    }}
+                >
+                    <h2>Chats</h2>
+                    <IconButton onClick={handleOpen}>
+                        <AddIcon />
+                    </IconButton>
+                    <Modal open={modalOpen} onClose={handleClose}>
+                        <Box sx={modalStyle}>
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                            >
+                                Add a new thread
+                            </Typography>
+                            <div style={{ display: "flex" }}>
+                                <TextField
+                                    value={modalInput}
+                                    placeholder="New Thread"
+                                    onChange={(e) =>
+                                        setModalInput(e.target.value)
+                                    }
+                                    fullWidth
+                                    size="small"
+                                ></TextField>
+                                <Button
+                                    onClick={addThread}
+                                    style={{ marginLeft: "1rem" }}
+                                    variant="contained"
+                                    endIcon={<AddIcon />}
+                                >
+                                    Add
+                                </Button>
+                            </div>
+                        </Box>
+                    </Modal>
+                </div>
                 <div className="threads-body">
-                    {threads.map((chat) => {
+                    {threads?.map((chat, idx) => {
                         // console.log("chat", chat);
                         return (
                             <div
-                                key={chat.id}
-                                onClick={() => selectChat(chat.id)}
+                                key={idx}
+                                onClick={() => selectChat(chat)}
                                 style={{
                                     borderRadius: "5px",
                                     backgroundColor: "#0cc2d0",
@@ -56,29 +138,54 @@ export function Chatpage() {
                 </div>
             </div>
             <form className="chat">
-                <h2>Chat Name</h2>
+                <h2 style={{ marginTop: "1rem" }}>{activeChat.name}</h2>
                 <div className="chat-body">
                     <ul className="chats">
-                        {activeMessages.map((item, idx) => {
+                        {activeMessages?.map((item, idx) => {
                             return (
                                 <div
-                                    style={{
-                                        width: "fit-content",
-                                        margin: "1rem 0px",
-                                    }}
                                     key={idx}
+                                    style={
+                                        item.sender === "ndcowley"
+                                            ? {
+                                                  display: "flex",
+                                                  justifyContent: "end",
+                                              }
+                                            : {
+                                                  display: "flex",
+                                                  justifyContent: "start",
+                                              }
+                                    }
                                 >
-                                    <p className="message-sender">
-                                        {item.sender}
-                                    </p>
-                                    <div className="message" key={idx}>
-                                        <p className="message-content">
-                                            {item.content}
+                                    <div
+                                        style={{
+                                            width: "fit-content",
+                                            margin: "1rem 0px",
+                                        }}
+                                    >
+                                        <p className="message-sender">
+                                            {item.sender}
+                                        </p>
+                                        <div
+                                            className="message"
+                                            style={
+                                                item.sender === "ndcowley"
+                                                    ? {
+                                                          backgroundColor:
+                                                              "#1976d2",
+                                                      }
+                                                    : {}
+                                            }
+                                            key={idx}
+                                        >
+                                            <p className="message-content">
+                                                {item.content}
+                                            </p>
+                                        </div>
+                                        <p className="message-timestamp">
+                                            {item.timestamp}
                                         </p>
                                     </div>
-                                    <p className="message-timestamp">
-                                        {item.timestamp}
-                                    </p>
                                 </div>
                             );
                         })}
@@ -107,7 +214,14 @@ export function Chatpage() {
                                 onChange={(e) => setMessage(e.target.value)}
                             />
                             <Button
-                                onClick={newMessage}
+                                onClick={() =>
+                                    newMessage({
+                                        sender: "ndcowley",
+                                        timestamp:
+                                            new Date().toLocaleTimeString(),
+                                        content: message,
+                                    })
+                                }
                                 style={{ marginLeft: "1rem" }}
                                 variant="contained"
                                 endIcon={<SendIcon />}
@@ -121,12 +235,6 @@ export function Chatpage() {
         </div>
     );
 }
-
-const Thread = (props) => {
-    <div style={{ borderRadius: "5px", backgroundColor: "green" }}>
-        <p>{props.name}</p>
-    </div>;
-};
 
 const dummy = [
     {

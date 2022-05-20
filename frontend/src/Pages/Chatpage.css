@@ -1,7 +1,7 @@
 .page-wrapper {
     padding: 2rem;
     background-color: rgb(235, 235, 235);
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: space-between;
     /* align-items: center; */
@@ -16,6 +16,7 @@
 
 h2 {
     padding: 0px 0px 0px 1rem;
+    margin: 0px;
 }
 
 .threads-body {
