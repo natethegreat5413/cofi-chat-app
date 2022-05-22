@@ -1,0 +1,10 @@
+.thread {
+    border-radius: 5px;
+    background-color: #0cc2d0;
+    cursor: pointer;
+}
+
+.thread-text {
+    padding: 10px;
+    color: white;
+}

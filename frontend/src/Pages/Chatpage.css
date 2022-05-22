@@ -14,9 +14,28 @@
     margin: 0.5rem;
 }
 
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.username {
+    position: absolute;
+    top: -10px;
+    left: 40px;
+}
+
 h2 {
     padding: 0px 0px 0px 1rem;
     margin: 0px;
+}
+
+.threads-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0 0 0;
 }
 
 .threads-body {
@@ -48,11 +67,6 @@ h2 {
     overflow-y: scroll;
     height: 85%;
 }
-.chat-box {
-    position: absolute;
-    bottom: 10px;
-    width: 97%;
-}
 
 ::-webkit-scrollbar {
     display: none;
@@ -63,4 +77,10 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.logout {
+    position: absolute;
+    top: 0;
+    right: 30px;
 }
