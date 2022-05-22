@@ -45,9 +45,9 @@ export function Chatpage() {
         //// TRYING TO SET LOCAL STORAGE BUT GETTING UNDEFINED - WONT LOAD INFO UNTIL PAGE REFRESH ////
         if (localStorage.getItem("userInfo") !== "undefined") {
             setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-            console.log(userInfo);
         } else {
-            console.log("not yet");
+            console.log("No Token Found");
+            throw new Error("No Token Found");
         }
     }, []);
 
@@ -56,7 +56,8 @@ export function Chatpage() {
         navigate("/");
     };
 
-    const newMessage = async () => {
+    const newMessage = async (e) => {
+        e.preventDefault();
         await axios.post("/api/message", {
             content: message,
             chatId: activeChat?._id,
@@ -68,7 +69,7 @@ export function Chatpage() {
 
         // const newMessage = [...activeMessages, e];
         // setActiveMessages((prev) => [...prev, newMessage]);
-        console.log("newMessage", newMessage);
+        // console.log("newMessage", newMessage);
         setMessage("");
     };
 
@@ -217,11 +218,13 @@ export function Chatpage() {
                         <div className="chat-body">
                             <ul className="chats">
                                 {activeMessages?.map((item, idx) => {
+                                    console.log("item", item);
                                     return (
                                         <div
                                             key={idx}
                                             style={
-                                                item?.sender === userInfo?.name
+                                                item?.sender?.name ===
+                                                userInfo?.name
                                                     ? {
                                                           display: "flex",
                                                           justifyContent: "end",
@@ -245,11 +248,11 @@ export function Chatpage() {
                                                 <div
                                                     className="message"
                                                     style={
-                                                        item.sender ===
+                                                        item.sender?.name ===
                                                         userInfo?.name
                                                             ? {
                                                                   backgroundColor:
-                                                                      "#1976d2",
+                                                                      "rgb(12, 194, 208)",
                                                               }
                                                             : {}
                                                     }
