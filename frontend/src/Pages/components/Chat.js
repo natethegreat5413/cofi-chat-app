@@ -29,6 +29,7 @@ export function Chat({ position, sender, content, timestamp }) {
                         position
                             ? {
                                   backgroundColor: "rgb(12, 194, 208)",
+                                  borderRadius: "1rem 1rem 0 1rem",
                               }
                             : {}
                     }

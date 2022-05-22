@@ -8,7 +8,9 @@
     background-color: lightgreen;
     margin: 5px 0px;
     width: fit-content;
-    border-radius: 25px;
+    border-bottom-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 
 .message-content {

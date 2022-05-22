@@ -5,10 +5,26 @@
         rgba(230, 69, 155) 0%,
         rgba(121, 2, 240) 25%
     );
-    height: 100vh;
+    height: 93vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-wrapper {
     display: flex;
     justify-content: space-between;
-    /* align-items: center; */
+    background-color: white;
+    border-radius: 5px;
+    padding: 0 1rem;
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.53);
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.53);
+}
+
+.main-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem -0.5rem 0 -0.5rem;
+    flex: 1;
 }
 
 .threads {
@@ -25,10 +41,7 @@
 }
 
 .username {
-    position: absolute;
-    top: -10px;
-    left: 40px;
-    color: white;
+    color: black;
 }
 
 h2 {
@@ -78,14 +91,8 @@ h2 {
 }
 
 .chat-header {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.logout {
-    position: absolute;
-    top: 0;
-    right: 30px;
 }
