@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../Models/chatModel");
-const User = require("../Models/userModel");
 const Message = require("../Models/messageModel");
 
 const fetchAllMessages = asyncHandler(async (req, res) => {
@@ -20,7 +19,9 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     if (!content || !chatId) {
         console.log("invalid data passed into request", req.body);
-        return res.sendStatus(400);
+        return res
+            .sendStatus(400)
+            .send({ message: "invalid data passed into request." });
     }
 
     var newMessage = {

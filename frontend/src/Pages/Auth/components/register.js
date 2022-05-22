@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./register.css";
-import cofi from "../../../public/cofi.jpg";
 import { useNavigate } from "react-router-dom";
 
+import cofi from "../../../public/cofi.jpg";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Alert from "@mui/material/Alert";
 
 export function Register(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
     const [errorMessage, setErrorMessage] = useState();
     let navigate = useNavigate();
@@ -36,7 +33,6 @@ export function Register(props) {
                 config
             );
             localStorage.setItem("userInfo", JSON.stringify(data));
-
             navigate("/chats");
         } catch (error) {
             if (
@@ -52,16 +48,7 @@ export function Register(props) {
 
     return (
         <form className="register-container">
-            <Paper
-                elevation={3}
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    padding: "2rem",
-                }}
-            >
+            <Paper elevation={3} className="register-paper">
                 <img src={cofi} height={75} width={75} />
                 <h2>Register</h2>
                 <p>
@@ -116,18 +103,12 @@ export function Register(props) {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     error={error}
                 />
-                {error && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {error && <p className="error">{errorMessage}</p>}
                 <Space />
-                {loading === false && (
-                    <Button onClick={onSubmit} variant="outlined">
-                        Create Account
-                    </Button>
-                )}
-                {loading === true && (
-                    <LoadingButton loading variatn="outlined">
-                        Create Account
-                    </LoadingButton>
-                )}
+
+                <Button onClick={onSubmit} variant="outlined">
+                    Create Account
+                </Button>
             </Paper>
         </form>
     );

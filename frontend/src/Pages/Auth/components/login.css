@@ -3,6 +3,14 @@
     padding: 2rem;
 }
 
+.login-paper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem;
+}
+
 .errors {
     color: red;
 }
@@ -17,4 +25,8 @@ h2 {
 
 .css-wb57ya-MuiFormControl-root-MuiTextField-root {
     margin: 0px 0px 1rem 0px;
+}
+
+.error {
+    color: red;
 }

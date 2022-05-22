@@ -48,32 +48,19 @@ h2 {
     overflow-y: scroll;
     height: 85%;
 }
+.chat-box {
+    position: absolute;
+    bottom: 10px;
+    width: 97%;
+}
 
 ::-webkit-scrollbar {
     display: none;
 }
 
-.message-sender {
-    margin: 0px;
-    font-weight: 600;
-    font-size: small;
-}
-
-.message {
-    background-color: lightgreen;
-    margin: 5px 0px;
-    width: fit-content;
-    border-radius: 25px;
-}
-
-.message-content {
-    padding: 10px 15px;
-    margin: 0px;
-}
-
-.message-timestamp {
-    margin: 0px;
-    text-align: end;
-    font-weight: 100;
-    font-size: small;
+.chat-header {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

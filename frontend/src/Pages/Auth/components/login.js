@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import Paper from "@mui/material/Paper";
 import cofi from "../../../public/cofi.jpg";
+import axios from "axios";
 import "./login.css";
+import { useNavigate } from "react-router-dom";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-// import LoadingButton from "@mui/lab/LoadingButton";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
 export function Login(props) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
     const [error, setError] = useState();
     let navigate = useNavigate();
@@ -34,7 +33,6 @@ export function Login(props) {
             localStorage.setItem("userInfo", JSON.stringify(data));
             navigate("/chats");
         } catch (error) {
-            console.log(error);
             if (
                 error.response &&
                 error.response.status >= 400 &&
@@ -48,16 +46,7 @@ export function Login(props) {
 
     return (
         <form className="login-container">
-            <Paper
-                elevation={3}
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    padding: "2rem",
-                }}
-            >
+            <Paper elevation={3} className="login-paper">
                 <img src={cofi} height={75} width={75} />
                 <h2>Login</h2>
                 <p>
@@ -91,12 +80,7 @@ export function Login(props) {
                 <Button onClick={submitHandler} variant="outlined">
                     Login
                 </Button>
-                {error && <p style={{ color: "red" }}>{errorMessage}</p>}
-                {/* {loading === true && (
-                    <LoadingButton loading variant="outlined">
-                        Login
-                    </LoadingButton>
-                )} */}
+                {error && <p className="error">{errorMessage}</p>}
             </Paper>
         </form>
     );

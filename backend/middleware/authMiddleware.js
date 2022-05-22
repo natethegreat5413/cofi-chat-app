@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const protect = asyncHandler(async (req, res, next) => {
     let token;
-    console.log("protect", req.body.headers.Authorization);
+    // console.log("protect", req.body.headers.Authorization);
     if (
         req.body.headers.Authorization &&
         req.body.headers.Authorization.startsWith("Bearer")
@@ -12,9 +12,9 @@ const protect = asyncHandler(async (req, res, next) => {
         try {
             token = req.body.headers.Authorization.split(" ")[1];
             // console.log("token", token);
+
             //decodes token id
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log("decoded", decoded);
 
             req.user = await User.findById(decoded.id).select("-password");
 

@@ -1,4 +1,4 @@
 export * from "./login";
 export * from "./register";
-export * from "./Chat";
-export * from "./threads";
+export * from "../../components/Chat";
+export * from "../../components/threads";

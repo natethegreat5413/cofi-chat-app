@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Chatpage.css";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import { Threads, Chat } from "../Pages/Auth/components/index";
+import { Chat, ChatBox } from "./components";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -56,6 +56,10 @@ export function Chatpage() {
         navigate("/");
     };
 
+    const refresh = () => {
+        window.location.reload();
+    };
+
     const newMessage = async (e) => {
         e.preventDefault();
         await axios.post("/api/message", {
@@ -67,9 +71,6 @@ export function Chatpage() {
             },
         });
 
-        // const newMessage = [...activeMessages, e];
-        // setActiveMessages((prev) => [...prev, newMessage]);
-        // console.log("newMessage", newMessage);
         setMessage("");
     };
 
@@ -87,6 +88,7 @@ export function Chatpage() {
             name: modalInput,
         };
         await axios.post("/api/chat/chat", thread);
+
         setModalInput("");
         setModalOpen(false);
     };
@@ -202,85 +204,37 @@ export function Chatpage() {
                         </div>
                     </div>
                     <form className="chat">
-                        <div
-                            style={{
-                                marginTop: "1rem",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
+                        <div className="chat-header">
                             <h2>{activeChat?.chatName}</h2>
-                            <IconButton>
+                            <IconButton onClick={refresh}>
                                 <RefreshIcon />
                             </IconButton>
                         </div>
                         <div className="chat-body">
                             <ul className="chats">
                                 {activeMessages?.map((item, idx) => {
-                                    console.log("item", item);
                                     return (
-                                        <div
+                                        <Chat
                                             key={idx}
-                                            style={
+                                            sender={item?.sender?.name}
+                                            position={
                                                 item?.sender?.name ===
                                                 userInfo?.name
-                                                    ? {
-                                                          display: "flex",
-                                                          justifyContent: "end",
-                                                      }
-                                                    : {
-                                                          display: "flex",
-                                                          justifyContent:
-                                                              "start",
-                                                      }
                                             }
-                                        >
-                                            <div
-                                                style={{
-                                                    width: "fit-content",
-                                                    margin: "1rem 0px",
-                                                }}
-                                            >
-                                                <p className="message-sender">
-                                                    {item?.sender?.name}
-                                                </p>
-                                                <div
-                                                    className="message"
-                                                    style={
-                                                        item.sender?.name ===
-                                                        userInfo?.name
-                                                            ? {
-                                                                  backgroundColor:
-                                                                      "rgb(12, 194, 208)",
-                                                              }
-                                                            : {}
-                                                    }
-                                                    key={idx}
-                                                >
-                                                    <p className="message-content">
-                                                        {item?.content}
-                                                    </p>
-                                                </div>
-                                                <p className="message-timestamp">
-                                                    {new Date(
-                                                        item?.createdAt
-                                                    ).toLocaleTimeString()}
-                                                </p>
-                                            </div>
-                                        </div>
+                                            content={item?.content}
+                                            timestamp={new Date(
+                                                item?.createdAt
+                                            ).toLocaleTimeString()}
+                                        />
                                     );
                                 })}
                             </ul>
-
-                            <div
-                                className="chat-box"
-                                style={{
-                                    position: "absolute",
-                                    bottom: "10px",
-                                    width: "97%",
-                                }}
-                            >
+                            <ChatBox
+                                onChange={(e) => setMessage(e.target.value)}
+                                message={message}
+                                newMessage={newMessage}
+                            />
+                            {/* <div className="chat-box">
                                 <div
                                     style={{
                                         display: "flex",
@@ -306,7 +260,7 @@ export function Chatpage() {
                                         Send
                                     </Button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>
