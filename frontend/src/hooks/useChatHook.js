@@ -59,7 +59,6 @@ export const useChatHook = () => {
         setMessage("");
     };
 
-    //// This works ////
     const selectChat = async (chat) => {
         setActiveChat(chat);
         const messages = await axios.get(`/api/message/${chat?._id}`);
