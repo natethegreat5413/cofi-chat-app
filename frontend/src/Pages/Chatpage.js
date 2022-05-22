@@ -44,7 +44,7 @@ export function Chatpage() {
                     <IconButton
                         onClick={logOut}
                         className="logout"
-                        style={{ position: "absolute" }}
+                        style={{ position: "absolute", color: "white" }}
                     >
                         <LogoutIcon />
                     </IconButton>
@@ -85,22 +85,23 @@ export function Chatpage() {
                         </div>
                         <div className="chat-body">
                             <div className="chats">
-                                {activeMessages?.map((item, idx) => {
-                                    return (
-                                        <Chat
-                                            key={idx}
-                                            sender={item?.sender?.name}
-                                            position={
-                                                item?.sender?.name ===
-                                                userInfo?.name
-                                            }
-                                            content={item?.content}
-                                            timestamp={new Date(
-                                                item?.createdAt
-                                            ).toLocaleTimeString()}
-                                        />
-                                    );
-                                })}
+                                {activeMessages &&
+                                    activeMessages?.map((item, idx) => {
+                                        return (
+                                            <Chat
+                                                key={idx}
+                                                sender={item?.sender?.name}
+                                                position={
+                                                    item?.sender?.name ===
+                                                    userInfo?.name
+                                                }
+                                                content={item?.content}
+                                                timestamp={new Date(
+                                                    item?.createdAt
+                                                ).toLocaleTimeString()}
+                                            />
+                                        );
+                                    })}
                             </div>
                             <ChatBox
                                 onChange={(e) => setMessage(e.target.value)}

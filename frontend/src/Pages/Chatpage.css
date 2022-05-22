@@ -1,6 +1,10 @@
 .page-wrapper {
     padding: 2rem;
-    background-color: rgb(235, 235, 235);
+    background: linear-gradient(
+        100deg,
+        rgba(230, 69, 155) 0%,
+        rgba(121, 2, 240) 25%
+    );
     height: 100vh;
     display: flex;
     justify-content: space-between;
@@ -24,6 +28,7 @@
     position: absolute;
     top: -10px;
     left: 40px;
+    color: white;
 }
 
 h2 {

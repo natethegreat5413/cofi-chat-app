@@ -15,23 +15,24 @@ export const useChatHook = () => {
     const handleOpen = () => setModalOpen(true);
     const handleClose = () => setModalOpen(false);
 
-    useEffect(() => {
-        //// FETCH CHATS ////
+    const fetchChatsAndMessages = () => {
         axios.get("/api/chat").then((res) => {
             const reversedData = res.data.reverse();
             setThreads(reversedData);
             setActiveChat(reversedData[0]);
 
-            //// Populate messages from active thread ////
             axios.get(`/api/message/${reversedData[0]._id}`).then((res) => {
                 setActiveMessages(res.data);
             });
         });
+    };
+
+    useEffect(() => {
+        fetchChatsAndMessages();
 
         if (localStorage.getItem("userInfo") !== "undefined") {
             setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
         } else {
-            console.log("No Token Found");
             throw new Error("No Token Found");
         }
     }, []);
@@ -42,19 +43,26 @@ export const useChatHook = () => {
     };
 
     const refresh = () => {
-        window.location.reload();
+        fetchChatsAndMessages();
     };
 
     const newMessage = async (e) => {
         e.preventDefault();
-        await axios.post("/api/message", {
-            content: message,
-            chatId: activeChat?._id,
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${userInfo?.token}`,
-            },
-        });
+        await axios
+            .post("/api/message", {
+                content: message,
+                chatId: activeChat?._id,
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${userInfo?.token}`,
+                },
+            })
+            .then((res) => {
+                setActiveMessages((state) => [...state, res.data]);
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
 
         setMessage("");
     };
@@ -65,13 +73,17 @@ export const useChatHook = () => {
         setActiveMessages(messages?.data);
     };
 
-    //// This works but doesn't update until page refresh ////
     const addThread = async (e) => {
         e.preventDefault();
         const thread = {
             name: modalInput,
         };
-        await axios.post("/api/chat/chat", thread);
+        await axios
+            .post("/api/chat/chat", thread)
+            .then((res) => {
+                setThreads((state) => [res.data, ...state]);
+            })
+            .catch((error) => console.log("error", error));
 
         setModalInput("");
         setModalOpen(false);
