@@ -25,6 +25,7 @@ h2 {
     margin: 10px;
     border-radius: 5px;
     height: calc(100% - 5.5rem);
+    overflow-y: scroll;
 }
 
 .chat {

@@ -1,30 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../Models/chatModel");
-const User = require("../Models/userModel");
-
-// const fetchChats = asyncHandler(async (req, res) => {
-//     try {
-//         Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
-//             .populate('Users", "-password')
-//             .populate("latestMessage")
-//             .sort({ updatedAt: -1 })
-//             .then(async (res) => {
-//                 res = await User.populate(results, {
-//                     path: "latestMessage.sender",
-//                     select: "name email",
-//                 });
-//                 res.status(200).send(res);
-//             });
-//     } catch (error) {
-//         res.status(400);
-//         throw new Error(error.message);
-//     }
-// });
 
 const fetchChats = asyncHandler(async (req, res) => {
     Chat.find()
         .then((chat) => {
-            res.send(chat);
+            res.status(200).send(chat);
         })
         .catch((err) => {
             res.status(500).send({
@@ -57,30 +37,17 @@ const fetchChatById = asyncHandler(async (req, res) => {
 });
 
 const createNewChat = asyncHandler(async (req, res) => {
-    if (!req.body.name || !req.body.messages) {
+    if (!req.body.name) {
         return res.status(400).send({ message: "Please Fill all the fields" });
     }
-    console.log("Hello world", req.body);
-
-    // var users = JSON.parse(req.body.users);
-
-    // users.push(req.user);
-
     try {
-        const groupChat = await Chat.create({
+        const newChat = await Chat.create({
             chatName: req.body.name,
-            // users: users,
-            messages: [],
         });
 
-        groupChat.save().then((data) => {
+        newChat.save().then((data) => {
             res.send(data);
         });
-
-        // const fullGroupChat = await Chat.findOne({
-        //     _id: groupChat._id,
-        // }).populate("users", "-password");
-        // res.status(200).json(fullGroupChat);
     } catch (error) {
         throw new Error(error.message);
     }

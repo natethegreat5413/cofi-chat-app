@@ -17,7 +17,7 @@ const fetchAllMessages = asyncHandler(async (req, res) => {
 
 const sendMessage = asyncHandler(async (req, res) => {
     const { content, chatId } = req.body;
-    console.log("USER", req.user);
+    req.body.chatId;
 
     if (!content || !chatId) {
         console.log("invalid data passed into request", req.body);

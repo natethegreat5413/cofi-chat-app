@@ -1,23 +1,23 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../Models/userModel");
 const generateToken = require("../config/generateToken");
-const bcrypt = require("bcryptjs");
+const User = require("../Models/userModel");
 
+////  REGISTER THE USER ////
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        res.status(400);
-        throw new Error("Please Enter all the Fields");
+        res.status(400).send({ message: "Please enter all of the fields." });
     }
 
+    // Query DB to see if user exists
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-        res.status(400);
-        throw new Error("User already exists");
+        res.status(400).send({ message: "User already exists" });
     }
 
+    // If user doesn't exist create one
     const user = await User.create({
         name,
         email,
@@ -32,11 +32,11 @@ const registerUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id),
         });
     } else {
-        res.status(400);
-        throw new Error("failed to Create new User");
+        res.status(400).send({ message: "Failed to Create new User" });
     }
 });
 
+//// AUTHENTICATE THE USER ////
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -50,8 +50,7 @@ const authUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id),
         });
     } else {
-        res.status(401);
-        throw new Error("Invalid Email or Password");
+        res.status(401).send({ message: "Invalid Email or Password" });
     }
 });
 

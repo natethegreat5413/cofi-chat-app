@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Paper from "@mui/material/Paper";
-import cofi from "../../../public/cofi.jpg";
+import axios from "axios";
 import "./register.css";
+import cofi from "../../../public/cofi.jpg";
+import { useNavigate } from "react-router-dom";
+
+import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 export function Register(props) {
     const [name, setName] = useState("");
@@ -14,10 +16,13 @@ export function Register(props) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [error, setError] = useState();
+    const [errorMessage, setErrorMessage] = useState();
+    let navigate = useNavigate();
 
-    const onSubmit = async (data) => {
-        setLoading(true);
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
         try {
             const config = {
                 headers: {
@@ -25,21 +30,28 @@ export function Register(props) {
                 },
             };
 
-            const { data } = axios.post(
-                "/api/user",
+            const { data } = await axios.post(
+                "/api/user/register",
                 { name, email, password },
                 config
             );
             localStorage.setItem("userInfo", JSON.stringify(data));
-            setLoading(false);
+
             navigate("/chats");
         } catch (error) {
-            throw new Error("Could not Register User", error);
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ) {
+                setError(true);
+                setErrorMessage(error.response.data.message);
+            }
         }
     };
 
     return (
-        <form className="register-container" onSubmit={onSubmit}>
+        <form className="register-container">
             <Paper
                 elevation={3}
                 style={{
@@ -66,6 +78,7 @@ export function Register(props) {
                     fullWidth
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    error={error}
                 />
                 <Space />
                 <TextField
@@ -77,6 +90,7 @@ export function Register(props) {
                     label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    error={error}
                 />
                 <Space />
                 <TextField
@@ -88,6 +102,7 @@ export function Register(props) {
                     label="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    error={error}
                 />
                 <Space />
                 <TextField
@@ -99,10 +114,12 @@ export function Register(props) {
                     label="Confirm Password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    error={error}
                 />
+                {error && <p style={{ color: "red" }}>{errorMessage}</p>}
                 <Space />
                 {loading === false && (
-                    <Button type="submit" variant="outlined">
+                    <Button onClick={onSubmit} variant="outlined">
                         Create Account
                     </Button>
                 )}

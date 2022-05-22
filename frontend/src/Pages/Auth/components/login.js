@@ -12,10 +12,12 @@ export function Login(props) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState();
+    const [error, setError] = useState();
+    let navigate = useNavigate();
 
-    const submitHandler = async () => {
-        setLoading(true);
+    const submitHandler = async (e) => {
+        e.preventDefault();
 
         try {
             const config = {
@@ -29,12 +31,18 @@ export function Login(props) {
                 { email, password },
                 config
             );
-
             localStorage.setItem("userInfo", JSON.stringify(data));
-            setLoading(false);
             navigate("/chats");
         } catch (error) {
-            throw new Error("Could not Login", error);
+            console.log(error);
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ) {
+                setError(true);
+                setErrorMessage(error.response.data.message);
+            }
         }
     };
 
@@ -65,6 +73,7 @@ export function Login(props) {
                     label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    error={error}
                 />
                 <Space />
                 <TextField
@@ -76,13 +85,13 @@ export function Login(props) {
                     label="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    error={error}
                 />
                 <Space />
-                {loading === false && (
-                    <Button onClick={submitHandler} variant="outlined">
-                        Login
-                    </Button>
-                )}
+                <Button onClick={submitHandler} variant="outlined">
+                    Login
+                </Button>
+                {error && <p style={{ color: "red" }}>{errorMessage}</p>}
                 {/* {loading === true && (
                     <LoadingButton loading variant="outlined">
                         Login
