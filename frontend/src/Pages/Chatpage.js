@@ -7,6 +7,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { SpinnerCircular } from "spinners-react";
 import { useChatHook } from "../hooks/useChatHook";
+import { format } from "date-fns";
 
 export function Chatpage() {
     const {
@@ -100,9 +101,12 @@ export function Chatpage() {
                                                         userInfo?.name
                                                     }
                                                     content={item?.content}
-                                                    timestamp={new Date(
-                                                        item?.createdAt
-                                                    ).toLocaleTimeString()}
+                                                    timestamp={format(
+                                                        new Date(
+                                                            item?.createdAt
+                                                        ),
+                                                        "p"
+                                                    )}
                                                 />
                                             );
                                         })}

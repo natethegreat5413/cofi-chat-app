@@ -19,7 +19,7 @@ export function Chat({ position, sender, content, timestamp }) {
             <div
                 style={{
                     width: "fit-content",
-                    margin: "1rem 0px",
+                    margin: "1rem",
                 }}
             >
                 <p className="message-sender">{sender}</p>
