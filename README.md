@@ -13,6 +13,7 @@
  - Express: https://expressjs.com/
  - React Router: https://reactrouter.com/
  - Schema Design: https://www.mongodb.com/developer/article/mongodb-schema-design-best-practices/
+    - https://www.geeksforgeeks.org/mongoose-populate-method/
   ## Styles
   - Optimistic UI: https://medium.com/@_erikaybar/optimistic-ui-updates-in-react-9e139ffa2e45
   - Unsplash: https://unsplash.com/
