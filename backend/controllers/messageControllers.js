@@ -36,10 +36,6 @@ const sendMessage = asyncHandler(async (req, res) => {
         message = await message.populate("sender", "name");
         message = await message.populate("chat");
 
-        await Chat.findByIdAndUpdate(req.body.chatId, {
-            latestMessage: message,
-        });
-
         res.json(message);
     } catch (error) {
         res.status(400);
