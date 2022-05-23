@@ -1,0 +1,31 @@
+.chat {
+    background-color: #ffffff;
+    border-radius: 5px;
+    width: 65%;
+    margin: 0.5rem;
+}
+
+.chat-body {
+    padding: 0.5rem;
+    background-color: rgb(235, 235, 235);
+    margin: 10px;
+    border-radius: 5px;
+    height: calc(100% - 5.5rem);
+    position: relative;
+}
+
+.chats {
+    overflow-y: scroll;
+    height: 85%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-header {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

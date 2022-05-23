@@ -1,13 +1,7 @@
 import React from "react";
 import "./Chatpage.css";
-import { Chat, ChatBox, Threads, ThreadModal } from "./components";
-import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { SpinnerCircular } from "spinners-react";
+import { ThreadsComp, ChatsComp, Header, LoadingComp } from "./components";
 import { useChatHook } from "../hooks/useChatHook";
-import { format } from "date-fns";
 
 export function Chatpage() {
     const {
@@ -32,92 +26,30 @@ export function Chatpage() {
     return (
         <>
             {!userInfo?.token ? (
-                <div className="loading">
-                    <h1>loading Content</h1>
-                    <SpinnerCircular
-                        enabled={userInfo?.token}
-                        color="rgb(12, 194, 208)"
-                    />
-                </div>
+                <LoadingComp userInfo={userInfo} />
             ) : (
                 <div className="page-wrapper">
-                    <div className="header-wrapper">
-                        <h3 className="username">Hello {userInfo?.name}</h3>
-                        <IconButton
-                            onClick={logOut}
-                            className="logout"
-                            style={{ color: "black" }}
-                        >
-                            <LogoutIcon />
-                        </IconButton>
-                    </div>
+                    <Header userInfo={userInfo} logOut={logOut} />
                     <div className="main-content-wrapper">
-                        <div className="threads">
-                            <div className="threads-header">
-                                <h2>Chats</h2>
-                                <IconButton onClick={handleOpen}>
-                                    <AddIcon />
-                                </IconButton>
-                                <ThreadModal
-                                    modalOpen={modalOpen}
-                                    handleClose={handleClose}
-                                    modalInput={modalInput}
-                                    onChange={(e) =>
-                                        setModalInput(e.target.value)
-                                    }
-                                    addThread={addThread}
-                                />
-                            </div>
-                            <div className="threads-body">
-                                {threads &&
-                                    threads?.map((chat, idx) => {
-                                        return (
-                                            <Threads
-                                                key={idx}
-                                                onClick={() => selectChat(chat)}
-                                                chatName={chat?.chatName}
-                                            />
-                                        );
-                                    })}
-                            </div>
-                        </div>
-                        <form className="chat">
-                            <div className="chat-header">
-                                <h2>{activeChat?.chatName}</h2>
-                                <IconButton onClick={refresh}>
-                                    <RefreshIcon />
-                                </IconButton>
-                            </div>
-                            <div className="chat-body">
-                                <div className="chats">
-                                    {activeMessages &&
-                                        activeMessages?.map((item, idx) => {
-                                            return (
-                                                <Chat
-                                                    key={idx}
-                                                    sender={item?.sender?.name}
-                                                    position={
-                                                        item?.sender?.name ===
-                                                        userInfo?.name
-                                                    }
-                                                    content={item?.content}
-                                                    timestamp={format(
-                                                        new Date(
-                                                            item?.createdAt
-                                                        ),
-                                                        "p"
-                                                    )}
-                                                />
-                                            );
-                                        })}
-                                </div>
-                                <ChatBox
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    message={message}
-                                    newMessage={newMessage}
-                                />
-                            </div>
-                        </form>
+                        <ThreadsComp
+                            handleOpen={handleOpen}
+                            handleClose={handleClose}
+                            modalOpen={modalOpen}
+                            modalInput={modalInput}
+                            onChange={(e) => setModalInput(e.target.value)}
+                            addThread={addThread}
+                            threads={threads}
+                            selectChat={selectChat}
+                        />
+                        <ChatsComp
+                            activeChatName={activeChat}
+                            refresh={refresh}
+                            activeMessages={activeMessages}
+                            userInfo={userInfo}
+                            setMessage={setMessage}
+                            message={message}
+                            newMessage={newMessage}
+                        />
                     </div>
                 </div>
             )}

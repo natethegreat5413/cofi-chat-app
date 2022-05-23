@@ -1,0 +1,22 @@
+.threads-wrapper {
+    background-color: #ffffff;
+    border-radius: 5px;
+    width: 35%;
+    margin: 0.5rem;
+}
+
+.threads-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0 0 0;
+}
+
+.threads-body {
+    padding: 0.5rem;
+    background-color: rgb(235, 235, 235);
+    margin: 10px;
+    border-radius: 5px;
+    height: calc(100% - 5.5rem);
+    overflow-y: scroll;
+}
